@@ -10,7 +10,7 @@ downloader <- function(file) {
   remote_path <- "https://rczechia.jla-data.net/" # remote archive
 
   remote_file <- paste0(remote_path, file) # path to AWS S3
-  local_file <- file.path(tempdir(), file) # local file - in tempdir
+  local_file <- file.path(tools::R_user_dir("RCzechia"), file) # local file - in permanent cache
 
   if (file.exists(local_file)) {
     message("RCzechia: using temporary local dataset.")
