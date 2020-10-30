@@ -8,14 +8,17 @@ downloader <- function(file) {
   aws <- as.logical(Sys.getenv("AWS_UP", unset = TRUE)) # dummy variable to allow testing of network
 
   remote_path <- "https://rczechia.jla-data.net/" # remote archive
-
+  local_dir <- tools::R_user_dir("RCzechia", which = "data") # local directory
   remote_file <- paste0(remote_path, file) # path to AWS S3
-  local_file <- file.path(tools::R_user_dir("RCzechia"), file) # local file - in permanent cache
 
-  if (file.exists(local_file)) {
+  if (!dir.exists(local_dir)) dir.create(local_dir) # if missing; create!
+
+  local_file <- file.path(local_dir, file) # local file - in permanent cache
+
+  if (file.exists(local_file) & network & aws) {
     message("RCzechia: using temporary local dataset.")
   } else {
-    if (!curl::has_internet() | !network) { # network is down
+    if (!curl::has_internet() | !network ) { # network is down
       message("No internet connection.")
       return(NULL)
     }
