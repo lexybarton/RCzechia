@@ -7,13 +7,28 @@ downloader <- function(file) {
   network <- as.logical(Sys.getenv("NETWORK_UP", unset = TRUE)) # dummy variable to allow testing of network
   aws <- as.logical(Sys.getenv("AWS_UP", unset = TRUE)) # dummy variable to allow testing of network
 
-  remote_path <- "https://rczechia.jla-data.net/" # remote archive
-  local_dir <- tools::R_user_dir("RCzechia", which = "data") # local directory
-  remote_file <- paste0(remote_path, file) # path to AWS S3
+  remote_path <- "https://rczechia.jla-data.net/" # a remote archive
+  local_dir <- tools::R_user_dir("RCzechia", which = "cache") # a local directory
+  remote_file <- paste0(remote_path, file) # network path to file on AWS S3
 
-  if (!dir.exists(local_dir)) dir.create(local_dir) # if missing; create!
+  # is parent directory of local cache available?
+  if(dir.exists(dirname(local_dir))) {
 
-  local_file <- file.path(local_dir, file) # local file - in permanent cache
+    # is the actual local cache dir available?
+    if (!dir.exists(local_dir)) {
+
+      dir.create(local_dir) # if missing, create!
+
+    } # / create local cache dir
+
+  } else {
+
+    # nowhere to create local cache; use tempdir as fallback
+    local_dir <- tempdir()
+
+  } #/ directory check
+
+  local_file <- file.path(local_dir, file) # local file
 
   if (file.exists(local_file) & network & aws) {
     message("RCzechia: using temporary local dataset.")
