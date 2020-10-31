@@ -8,7 +8,7 @@ downloader <- function(file) {
   aws <- as.logical(Sys.getenv("AWS_UP", unset = TRUE)) # dummy variable to allow testing of network
 
   remote_path <- "https://rczechia.jla-data.net/" # a remote archive
-  local_dir <- tools::R_user_dir("RCzechia", which = "cache") # a local directory
+  local_dir <- tools::R_user_dir("RCzechia", which = "data") # a local directory
   remote_file <- paste0(remote_path, file) # network path to file on AWS S3
 
   # is parent directory of local cache available?
