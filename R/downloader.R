@@ -31,7 +31,7 @@ downloader <- function(file) {
   local_file <- file.path(local_dir, file) # local file
 
   if (file.exists(local_file) & network & aws) {
-    message("RCzechia: using temporary local dataset.")
+    message(paste0("RCzechia: loading ", file, " from ", local_dir))
   } else {
     if (!curl::has_internet() | !network ) { # network is down
       message("No internet connection.")
@@ -44,7 +44,7 @@ downloader <- function(file) {
     }
 
     # proceed to download via curl
-    message("RCzechia: downloading remote dataset.")
+    message(paste0("RCzechia: downloading & storing ", file, " in ", local_dir))
     curl::curl_download(url = remote_file, destfile = local_file, quiet = T)
    } # /if - local file exists
 

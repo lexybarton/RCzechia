@@ -4,7 +4,7 @@
 
 ## version 1.6.1
 
-  - union_sf removed entirely (after being deprecated in 1.6.1)
+  - union_sf removed entirely (after being deprecated in 1.6.0)
   
   - handling of remotely stored datasets amended to better align with the variety of PROJ versions supported
 
